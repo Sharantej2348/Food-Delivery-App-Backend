@@ -6,10 +6,10 @@ const jsonwebtoken = require('jsonwebtoken')
 // RGISTER CONTROLLER
 const registerController = async (req, res) => {
     try {
-        const {username, email, password, phone, address} = req.body;
+        const {username, email, password, phone, address, answer} = req.body;
 
         // Validation
-        if(!username || !email || !password || !phone || !address){
+        if(!username || !email || !password || !phone || !address || !answer){
             return res.status(500).send({
                 success: false,
                 message: "Please provide all fields"
@@ -30,7 +30,7 @@ const registerController = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt)
 
         // Create New user
-        const user = await userModel.insertOne({username, email, password: hashedPassword, address, phone})
+        const user = await userModel.insertOne({username, email, password: hashedPassword, address, phone, answer})
         res.status(201).send({
             success: true,
             message: "Successfully Registered"
