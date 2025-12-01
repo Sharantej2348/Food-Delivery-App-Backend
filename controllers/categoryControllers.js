@@ -27,4 +27,85 @@ const createCategoryController = async(req, res) => {
     }
 }
 
-module.exports = {createCategoryController};
+// GET ALL CATEGORIES
+const getcategoriesController = async (req, res) => {
+    try {
+        const categories = await categoryModel.find({})
+        if(!categories){
+            return res.status(401).send({
+                success: false,
+                message: "No categories found"
+            })
+        }
+
+        res.status(200).send({
+            success: true,
+            totalCategories: categories.length,
+            categories
+
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "Error in get categories api",
+            error
+        })
+        
+    }
+}
+
+// UPDATE CATEGORY
+const updateCategoryController = async(req, res) => {
+    try {
+        const categoryId = req.params.id;
+        const {title, imageUrl} = req.body;
+        const updatedcategory = await categoryModel.findByIdAndUpdate(categoryId, {title, imageUrl}, {new: true})
+        if(!updatedcategory){
+            return res.status(500).send({
+                success: false,
+                message: "No category Found"
+            })
+        }
+        res.status(200).send({
+            success: true,
+            message: "Category updated successfully"
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "Error in Update category api",
+            error
+        })
+        
+    }
+}
+
+// DELETE CATEGORY
+const deleteCategoryController = async(req, res) => {
+    try {
+        const categoryId = req.params.id;
+        if(!categoryId){
+            return res.status(500).send({
+                success: false,
+                message: "Please provide a valid id"
+            })
+        }
+        await categoryModel.findByIdAndDelete(categoryId)
+        res.status(200).send({
+            success: true,
+            message: "Category Deleted Successfully"
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "Error in Delete Category api",
+            error
+        })
+        
+    }
+}
+
+module.exports = {createCategoryController, getcategoriesController, updateCategoryController, deleteCategoryController};
