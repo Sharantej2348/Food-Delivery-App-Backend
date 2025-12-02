@@ -12,7 +12,7 @@ const ordersSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['preparing', 'pending,', 'delivered'],
+        enum: ['preparing', 'prepared', 'pending,', 'delivered'],
         default: 'preparing'
     }
 }, {timestamps: true})
