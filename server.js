@@ -18,6 +18,7 @@ app.use('/user', require("./routes/userRoutes"))
 app.use('/restaurant', require("./routes/restaurantRoutes"))
 app.use('/category', require('./routes/categoryRoutes'))
 app.use('/food', require('./routes/foodRoutes'))
+app.use('/order', require('./routes/orderRoutes'))
 
 
 app.get('/', (req, res) => {
